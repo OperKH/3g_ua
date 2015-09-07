@@ -1,6 +1,6 @@
-Install dependencies: npm install --global yo gulp bower
-Install the generator: npm install --global generator-gulp-webapp
+Install dependencies: npm install --global yo gulp bower</br>
+Install the generator: npm install --global generator-gulp-webapp</br>
 
-Install project packages:
-npm install
-bower install
+Install project packages:</br>
+npm install</br>
+bower install</br>
