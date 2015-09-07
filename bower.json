@@ -2,7 +2,9 @@
   "name": "3-g",
   "private": true,
   "dependencies": {
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "sugar": "~1.4.1",
+    "tablesorter": "https://github.com/Mottie/tablesorter.git#~2.23.3"
   },
   "overrides": {
     "bootstrap": {
