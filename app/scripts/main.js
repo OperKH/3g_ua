@@ -29,13 +29,17 @@ $(document).ready(function(){
         data.format = "json";
         data.q = "select * from json where url='" + request + "'";
         $.getJSON(url, data, function(response) {
+            if (response.query.results === null) {
+                $('.'+operatorNameKey).find('.panel-body').text('Помилка при отриманні даних');
+                return;
+            }
             var data = response.query.results.json.aaData;
             data.forEach(function(item){
                 var date = new Date(item.json[1].split("/").reverse().join("/"));
                 var province = item.json[3];
                 var city = item.json[4];
                 var equipmentBrand = item.json[5];
-                equipmentBrand = /RBS6102|RBS6201|RBS6302|RBS6000|RBS6601/i.test(equipmentBrand)?"Ericsson":/Nokia|Flexi Multiradio/i.test(equipmentBrand)?"Nokia":/BTS 3803|DBS 3800|BTS3812|BTS 3900|DBS 3900/i.test(equipmentBrand)?"Huawei":/MobileAccess GX/i.test(equipmentBrand)?"Corning":equipmentBrand;
+                equipmentBrand = /RBS 3206|RBS6102|RBS6201|RBS6302|RBS6000|RBS6601/i.test(equipmentBrand)?"Ericsson":/Nokia|Flexi Multiradio/i.test(equipmentBrand)?"Nokia":/BTS 3803|DBS 3800|BTS3812|BTS 3900|DBS 3900/i.test(equipmentBrand)?"Huawei":/MobileAccess GX/i.test(equipmentBrand)?"Corning":equipmentBrand;
                 if (typeof(mainData[operatorNameKey].provinces[province]) === "undefined") {
                     mainData[operatorNameKey].provinces[province] = {};
                     mainData[operatorNameKey].provinces[province].date = date;
