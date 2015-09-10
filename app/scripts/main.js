@@ -6,7 +6,7 @@ $(document).ready(function(){
     Array.AlphanumericSortEquivalents = {};
     var operators = {
         life: 1922.8,
-        triMob: 1937.4,
+        triMob: 1942.4,
         mts: 1952.4,
         ks: 1967.4
     };
