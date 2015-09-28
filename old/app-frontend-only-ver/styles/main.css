@@ -1,0 +1,97 @@
+.panel,
+.panel-heading {
+    border-radius: 0;
+}
+.table > thead > tr > th,
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+.table > thead > tr > th {
+    cursor: pointer;
+    background-image: url(data:image/gif;base64,R0lGODlhFQAJAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw==);
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+.table > thead > tr > th.tablesorter-headerDesc {
+    background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);
+}
+.table > thead > tr > th.tablesorter-headerAsc {
+    background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjI8Bya2wnINUMopZAQA7);
+}
+.panel-body > table {
+    margin-top: -15px;
+    margin-bottom: -15px;
+}
+.panel-header > .panel-heading {
+    color: #fff;
+    background-color: #548;
+}
+.panel-header,
+.panel-header > .panel-heading {
+    border-color: #548;
+}
+.panel-ks > .panel-heading {
+    color: #fff;
+    background-color: #229fff;
+}
+.panel-ks,
+.panel-ks > .panel-heading {
+    border-color: #229fff;
+}
+.panel-triMob > .panel-heading {
+    color: #fff;
+    background-color: #35a027;
+}
+.panel-triMob,
+.panel-triMob > .panel-heading {
+    border-color: #35a027;
+}
+.panel-life > .panel-heading {
+    color: #fff;
+    background-color: #e50043;
+}
+.panel-life,
+.panel-life > .panel-heading {
+    border-color: #e50043;
+}
+.panel-mts > .panel-heading {
+    color: #fff;
+    background-color: #ed1c24;
+}
+.panel-mts,
+.panel-mts > .panel-heading {
+    border-color: #ed1c24;
+}
+.total-amount {
+    font-weight: bold;
+}
+.tablesorter input.tablesorter-filter,
+.tablesorter select.tablesorter-filter {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 4px;
+    color: #333;
+    border: 1px solid #bbb;
+    background-color: #fff;
+}
+.tablesorter .filtered {
+    display: none;
+}
+.table-holder {
+    padding: 15px 0 0 0;
+}
+
+@media screen and (max-width: 479px) {
+    .table > tbody > tr > td,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > td,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > thead > tr > th {
+        padding: 4px;
+    }
+}
