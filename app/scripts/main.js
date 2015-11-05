@@ -5,6 +5,12 @@ $(document).ready(function(){
     // see https://github.com/andrewplummer/Sugar/issues/382#issuecomment-41526957
     Array.AlphanumericSortEquivalents = {};
 
+
+    $('.panel-collapsible').find('.panel-heading').on('click',function(){
+        $(this).parent().toggleClass('panel-collapse');
+        $(this).next().slideToggle(500);
+    });
+
     getData();
 
     function getData() {
