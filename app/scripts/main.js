@@ -20,32 +20,36 @@ $(document).ready(function(){
     }
 
     function fillData(mainData){
+        var translate = {
+            provinces: "Область",
+            cities: "Місто"
+        };
         for (var operator in mainData) {
             for (var place in mainData[operator]) {
                 if (place === "total") {
-                    $('.'+operator).find('.total-amount').text(mainData[operator][place]);
+                    $('.'+operator).find('.bs-amount').text(mainData[operator][place]);
                 } else {
-                    var translate = {
-                        provinces: "Область",
-                        cities: "Місто"
-                    };
+                    var mainDataOperatorPlace = mainData[operator][place];
+                    var placeLength = 0;
                     var tableTemplate = '<table class="table table-bordered table-striped"><thead><tr><th>'+translate[place]+'</th><th>К-ть<br/>БС</th><th>Постачальник<br/>обладнання</th><th>Останнє<br/>додавання</th></tr></thead><tbody></tbody></table>';
                     var $tableFragment = $(document.createDocumentFragment());
                     $tableFragment.append(tableTemplate);
                     var $tbody = $tableFragment.find('tbody');
-                    for (var name in mainData[operator][place]) {
-                        var quantity = mainData[operator][place][name].quantity;
-                        var date = new Date(mainData[operator][place][name].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'});
+                    for (var name in mainDataOperatorPlace) {
+                        placeLength++;
+                        var quantity = mainDataOperatorPlace[name].quantity;
+                        var date = new Date(mainDataOperatorPlace[name].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'});
                         var brandArr = [];
-                        for (var brandKey in mainData[operator][place][name].brand) {
-                            brandArr.push(brandKey+'('+mainData[operator][place][name].brand[brandKey]+')');
+                        for (var brandKey in mainDataOperatorPlace[name].brand) {
+                            brandArr.push(brandKey+'('+mainDataOperatorPlace[name].brand[brandKey]+')');
                         }
                         var brands = brandArr.join(", ");
                         var tbodyRowTemplate = '<tr><td>'+name+'</td><td>'+quantity+'</td><td>'+brands+'</td><td>'+date+'</td></tr>';
                         $tbody.append(tbodyRowTemplate);
                     }
-                    $('.'+place).find('.'+operator).find('.panel-body').html($tableFragment);
-                    $('.'+place).find('.'+operator).find('table').tablesorter({
+                    var $placeOperator = $('.'+place).find('.'+operator);
+                    $placeOperator.find('.panel-body').html($tableFragment).end().find('.place-amount').html(placeLength);
+                    $placeOperator.find('table').tablesorter({
                         sortList: [[0, 0]],
                         dateFormat: "ddmmyyyy",
                         widgets: ["filter"],

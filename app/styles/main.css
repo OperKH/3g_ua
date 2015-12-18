@@ -58,7 +58,8 @@
 .panel-mts > .panel-heading {
     border-color: #ed1c24;
 }
-.total-amount {
+.place-amount,
+.bs-amount {
     font-weight: bold;
 }
 .tablesorter input.tablesorter-filter,
