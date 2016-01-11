@@ -35,18 +35,32 @@ const testLintOptions = {
 gulp.task('lint', lint('app/scripts/**/*.js'));
 gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
 
-gulp.task('html', ['styles'], () => {
+gulp.task('ejs', ['styles'], () => {
   const assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
-
-  return gulp.src('app/*.html')
+  console.log(__dirname);
+  return gulp.src('app/*.ejs')
     .pipe(assets)
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
     .pipe(assets.restore())
     .pipe($.useref())
-    .pipe($.if('*.html', $.minifyHtml({conditionals: true, loose: true})))
+    // .pipe($.if('*.ejs', $.minifyHtml()))
+    // .pipe($.if('*.ejs', $.minifyEjs()))
     .pipe(gulp.dest('dist'));
 });
+
+// gulp.task('html', ['styles'], () => {
+//   const assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
+
+//   return gulp.src('app/*.html')
+//     .pipe(assets)
+//     // .pipe($.if('*.js', $.uglify()))
+//     // .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
+//     .pipe(assets.restore())
+//     .pipe($.useref())
+//     .pipe($.if('*.html', $.minifyHtml({conditionals: true, loose: true})))
+//     .pipe(gulp.dest('dist'));
+// });
 
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
@@ -75,7 +89,7 @@ gulp.task('fonts', () => {
 gulp.task('extras', () => {
   return gulp.src([
     'app/*.*',
-    '!app/*.html'
+    '!app/*.ejs'
   ], {
     dot: true
   }).pipe(gulp.dest('dist'));
@@ -96,7 +110,7 @@ gulp.task('serve', ['styles', 'fonts'], () => {
   });
 
   gulp.watch([
-    'app/*.html',
+    'app/*.ejs',
     'app/scripts/**/*.js',
     'app/images/**/*',
     '.tmp/fonts/**/*'
@@ -136,7 +150,7 @@ gulp.task('serve:test', () => {
 
 // inject bower components
 gulp.task('wiredep', () => {
-  gulp.src('app/*.html')
+  gulp.src('app/*.ejs')
     .pipe(wiredep({
       exclude: ['bootstrap.js'],
       ignorePath: /^(\.\.\/)*\.\./
@@ -144,7 +158,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['html', 'images', 'fonts', 'extras'], () => {
+gulp.task('build', ['ejs', 'images', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
