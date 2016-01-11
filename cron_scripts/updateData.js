@@ -6,7 +6,7 @@ var requestify = require('requestify');
 var frontendDir = __dirname + '/../' + (process.argv[2] || 'dist') + '/';
 var outputFilename = frontendDir + 'db.json';
 var inputIndexEjs = frontendDir + 'index.ejs';
-var outputIndexHtml = frontendDir + 'index.htm';
+var outputIndexHtml = frontendDir + 'index.html';
 
 requestify.get('http://www.ucrf.gov.ua/wp-admin/admin-ajax.php?action=get_wdtable&table_id=1&sEcho=1&sSearch_9=UMTS&bSearchable_9=true')
     .then(function(response) {
