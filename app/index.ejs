@@ -10,7 +10,7 @@
     <!-- <link rel="icon" href="apple-touch-icon.png"> -->
     <!-- Place favicon.ico in the root directory -->
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
@@ -50,8 +50,7 @@
                           <td><%= ks.provinces[province].quantity %></td>
                           <% var brandArr = [];for (var brandKey in ks.provinces[province].brand) {brandArr.push(brandKey+'('+ks.provinces[province].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <% var d = new Date(ks.provinces[province].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
-                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
+                          <td><%= new Date(ks.provinces[province].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -80,8 +79,7 @@
                           <td><%= mts.provinces[province].quantity %></td>
                           <% var brandArr = [];for (var brandKey in mts.provinces[province].brand) {brandArr.push(brandKey+'('+mts.provinces[province].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <% var d = new Date(mts.provinces[province].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
-                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
+                          <td><%= new Date(mts.provinces[province].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -113,8 +111,7 @@
                           <td><%= life.provinces[province].quantity %></td>
                           <% var brandArr = [];for (var brandKey in life.provinces[province].brand) {brandArr.push(brandKey+'('+life.provinces[province].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <% var d = new Date(life.provinces[province].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
-                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
+                          <td><%= new Date(life.provinces[province].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -143,8 +140,7 @@
                           <td><%= triMob.provinces[province].quantity %></td>
                           <% var brandArr = [];for (var brandKey in triMob.provinces[province].brand) {brandArr.push(brandKey+'('+triMob.provinces[province].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <% var d = new Date(triMob.provinces[province].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
-                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
+                          <td><%= new Date(triMob.provinces[province].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -173,6 +169,7 @@
                     <thead>
                       <tr>
                         <th>Місто</th>
+                        <th>Область</th>
                         <th>К-ть<br/>БС</th>
                         <th>Постачальник<br/>обладнання</th>
                         <th>Останнє<br/>додавання</th>
@@ -181,12 +178,12 @@
                     <tbody>
                       <% for (var city in ks.cities) { %>
                         <tr>
-                          <td><%= city %></td>
+                          <td><%= ks.cities[city].city %></td>
+                          <td><%= ks.cities[city].province %></td>
                           <td><%= ks.cities[city].quantity %></td>
                           <% var brandArr = [];for (var brandKey in ks.cities[city].brand) {brandArr.push(brandKey+'('+ks.cities[city].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <% var d = new Date(ks.cities[city].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
-                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
+                          <td><%= new Date(ks.cities[city].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -196,27 +193,28 @@
             </div>
 
             <div class="col-md-6">
-              <div class="triMob panel panel-triMob panel-collapsible">
-                <div class="panel-heading"><b>3Mob</b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= triMob.total %></span>; Міст: <span class="place-amount"><%= Object.keys(triMob.cities).length %></span></div>
+              <div class="mts panel panel-mts panel-collapsible">
+                <div class="panel-heading"><b>МТС</b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= mts.total %></span>; Міст: <span class="place-amount"><%= Object.keys(mts.cities).length %></span></div>
                 <div class="panel-body table-holder table-responsive">
                   <table class="table table-bordered table-striped">
                     <thead>
                       <tr>
                         <th>Місто</th>
+                        <th>Область</th>
                         <th>К-ть<br/>БС</th>
                         <th>Постачальник<br/>обладнання</th>
                         <th>Останнє<br/>додавання</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <% for (var city in triMob.cities) { %>
+                      <% for (var city in mts.cities) { %>
                         <tr>
-                          <td><%= city %></td>
-                          <td><%= triMob.cities[city].quantity %></td>
-                          <% var brandArr = [];for (var brandKey in triMob.cities[city].brand) {brandArr.push(brandKey+'('+triMob.cities[city].brand[brandKey]+')'); } %>
+                          <td><%= mts.cities[city].city %></td>
+                          <td><%= mts.cities[city].province %></td>
+                          <td><%= mts.cities[city].quantity %></td>
+                          <% var brandArr = [];for (var brandKey in mts.cities[city].brand) {brandArr.push(brandKey+'('+mts.cities[city].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <% var d = new Date(triMob.cities[city].date); var year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
-                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
+                          <td><%= new Date(mts.cities[city].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -236,6 +234,7 @@
                     <thead>
                       <tr>
                         <th>Місто</th>
+                        <th>Область</th>
                         <th>К-ть<br/>БС</th>
                         <th>Постачальник<br/>обладнання</th>
                         <th>Останнє<br/>додавання</th>
@@ -244,12 +243,12 @@
                     <tbody>
                       <% for (var city in life.cities) { %>
                         <tr>
-                          <td><%= city %></td>
+                          <td><%= life.cities[city].city %></td>
+                          <td><%= life.cities[city].province %></td>
                           <td><%= life.cities[city].quantity %></td>
                           <% var brandArr = [];for (var brandKey in life.cities[city].brand) {brandArr.push(brandKey+'('+life.cities[city].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <% var d = new Date(life.cities[city].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
-                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
+                          <td><%= new Date(life.cities[city].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -259,27 +258,28 @@
             </div>
 
             <div class="col-md-6">
-              <div class="mts panel panel-mts panel-collapsible">
-                <div class="panel-heading"><b>МТС</b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= mts.total %></span>; Міст: <span class="place-amount"><%= Object.keys(mts.cities).length %></span></div>
+              <div class="triMob panel panel-triMob panel-collapsible">
+                <div class="panel-heading"><b>3Mob</b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= triMob.total %></span>; Міст: <span class="place-amount"><%= Object.keys(triMob.cities).length %></span></div>
                 <div class="panel-body table-holder table-responsive">
                   <table class="table table-bordered table-striped">
                     <thead>
                       <tr>
                         <th>Місто</th>
+                        <th>Область</th>
                         <th>К-ть<br/>БС</th>
                         <th>Постачальник<br/>обладнання</th>
                         <th>Останнє<br/>додавання</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <% for (var city in mts.cities) { %>
+                      <% for (var city in triMob.cities) { %>
                         <tr>
-                          <td><%= city %></td>
-                          <td><%= mts.cities[city].quantity %></td>
-                          <% var brandArr = [];for (var brandKey in mts.cities[city].brand) {brandArr.push(brandKey+'('+mts.cities[city].brand[brandKey]+')'); } %>
+                          <td><%= triMob.cities[city].city %></td>
+                          <td><%= triMob.cities[city].province %></td>
+                          <td><%= triMob.cities[city].quantity %></td>
+                          <% var brandArr = [];for (var brandKey in triMob.cities[city].brand) {brandArr.push(brandKey+'('+triMob.cities[city].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <% var d = new Date(mts.cities[city].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
-                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
+                          <td><%= new Date(triMob.cities[city].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -310,7 +310,6 @@
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/sugar/release/sugar.min.js"></script>
     <script src="/bower_components/tablesorter/dist/js/jquery.tablesorter.combined.js"></script>
     <!-- endbower -->

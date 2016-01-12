@@ -11,7 +11,7 @@ $(document).ready(function(){
     });
 
     $('table').tablesorter({
-        sortList: [[0, 0]],
+        sortList: [[0, 0],[1, 0]],
         dateFormat: "ddmmyyyy",
         widgets: ["filter"],
         widgetOptions : {
