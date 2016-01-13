@@ -18,9 +18,6 @@ $(document).ready(function(){
             filter_placeholder: {
                 search: 'пошук...'
             }
-        },
-        textSorter : {
-            0 : Array.AlphanumericSort
         }
     });
 
