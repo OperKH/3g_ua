@@ -11,13 +11,15 @@ $(document).ready(function(){
     });
 
     $('table').tablesorter({
-        sortList: [[0, 0],[1, 0]],
         dateFormat: "ddmmyyyy",
         widgets: ["filter"],
         widgetOptions : {
             filter_placeholder: {
                 search: 'пошук...'
             }
+        },
+        textSorter : {
+            0 : Array.AlphanumericSort
         }
     });
 
