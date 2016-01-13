@@ -1,5 +1,10 @@
 {
+  "name": "3g_base_stations",
+  "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "start": "node ./cron_scripts/updateData",
+  },
   "engines": {
     "node": ">=0.12.0"
   },

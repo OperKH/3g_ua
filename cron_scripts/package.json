@@ -1,4 +1,10 @@
 {
+  "name": "cron_update",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./updateData",
+  },
   "dependencies": {
     "ejs": "^2.3.4",
     "fs": "0.0.2",
