@@ -50,7 +50,8 @@
                           <td><%= ks.provinces[province].quantity %></td>
                           <% var brandArr = [];for (var brandKey in ks.provinces[province].brand) {brandArr.push(brandKey+'('+ks.provinces[province].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <td><%= new Date(ks.provinces[province].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
+                          <% var d = new Date(ks.provinces[province].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
+                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -79,7 +80,8 @@
                           <td><%= mts.provinces[province].quantity %></td>
                           <% var brandArr = [];for (var brandKey in mts.provinces[province].brand) {brandArr.push(brandKey+'('+mts.provinces[province].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <td><%= new Date(mts.provinces[province].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
+                          <% var d = new Date(mts.provinces[province].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
+                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -111,7 +113,8 @@
                           <td><%= life.provinces[province].quantity %></td>
                           <% var brandArr = [];for (var brandKey in life.provinces[province].brand) {brandArr.push(brandKey+'('+life.provinces[province].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <td><%= new Date(life.provinces[province].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
+                          <% var d = new Date(life.provinces[province].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
+                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -140,7 +143,8 @@
                           <td><%= triMob.provinces[province].quantity %></td>
                           <% var brandArr = [];for (var brandKey in triMob.provinces[province].brand) {brandArr.push(brandKey+'('+triMob.provinces[province].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <td><%= new Date(triMob.provinces[province].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
+                          <% var d = new Date(triMob.provinces[province].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
+                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -183,7 +187,8 @@
                           <td><%= ks.cities[city].quantity %></td>
                           <% var brandArr = [];for (var brandKey in ks.cities[city].brand) {brandArr.push(brandKey+'('+ks.cities[city].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <td><%= new Date(ks.cities[city].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
+                          <% var d = new Date(ks.cities[city].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
+                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -214,7 +219,8 @@
                           <td><%= mts.cities[city].quantity %></td>
                           <% var brandArr = [];for (var brandKey in mts.cities[city].brand) {brandArr.push(brandKey+'('+mts.cities[city].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <td><%= new Date(mts.cities[city].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
+                          <% var d = new Date(mts.cities[city].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
+                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -248,7 +254,8 @@
                           <td><%= life.cities[city].quantity %></td>
                           <% var brandArr = [];for (var brandKey in life.cities[city].brand) {brandArr.push(brandKey+'('+life.cities[city].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <td><%= new Date(life.cities[city].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
+                          <% var d = new Date(life.cities[city].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
+                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
                         </tr>
                       <% } %>
                     </tbody>
@@ -279,7 +286,8 @@
                           <td><%= triMob.cities[city].quantity %></td>
                           <% var brandArr = [];for (var brandKey in triMob.cities[city].brand) {brandArr.push(brandKey+'('+triMob.cities[city].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <td><%= new Date(triMob.cities[city].date).toLocaleString("ru", {year: 'numeric', month: 'numeric', day: 'numeric'}) %></td>
+                          <% var d = new Date(triMob.cities[city].date); var year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
+                          <td><%= year + "-" + (mon<10?"0"+mon:mon) + "-" + (day<10?"0"+day:day) %></td>
                         </tr>
                       <% } %>
                     </tbody>
