@@ -40,5 +40,9 @@
         "single"
       ]
     }
+  },
+  "dependencies": {
+    "babel-core": "^5.8.35",
+    "browser-sync": "^2.11.1"
   }
 }
