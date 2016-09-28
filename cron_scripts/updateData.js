@@ -11,9 +11,13 @@ var outputIndexHtml = frontendDir + 'index.html';
 
 console.log('before responce');
 
-requestify.get('http://www.ucrf.gov.ua/wp-admin/admin-ajax.php?action=get_wdtable&table_id=1&sEcho=1&sSearch_0=БС2100-&bSearchable_0=true').then(function(response) {
+requestify.get('http://www.ucrf.gov.ua/wp-admin/admin-ajax.php?action=get_wdtable&table_id=1&sEcho=1&sSearch_0=БС2100&bSearchable_0=true').then(function(response) {
     console.log('get responce');
     var data = JSON.parse(response.getBody()).aaData;
+    if (!data.length) {
+        console.warn('No data from UCRF');
+        return;
+    }
     var mainData = {};
     data.forEach(function(item){
         var date = new Date(item[1].split("/").reverse().join("/"));
@@ -23,7 +27,7 @@ requestify.get('http://www.ucrf.gov.ua/wp-admin/admin-ajax.php?action=get_wdtabl
         var equipmentBrand = item[5];
         var freq = item[7];
         var operatorNameKey = /1922|1927|1932/i.test(freq)?"life":/1937|1942|1947/i.test(freq)?"triMob":/1952|1957|1962/i.test(freq)?"mts":/1967|1972|1977/i.test(freq)?"ks":freq;
-        equipmentBrand = /RBS 3206|RBS3418|RBS3518|RBS6102|RBS6201|RBS6302|RBS6000|RBS6601/i.test(equipmentBrand)?"Ericsson":/Nokia|Flexi Multiradio/i.test(equipmentBrand)?"Nokia":/BTS 3803|DBS 3800|BTS3812|BTS 3900|DBS\s?3900/i.test(equipmentBrand)?"Huawei":/ZXSDR BS8700/i.test(equipmentBrand)?"ZTE":/MobileAccess GX/i.test(equipmentBrand)?"Corning":equipmentBrand;
+        equipmentBrand = /RBS 3206|RBS3418|RBS3518|RBS6102|RBS6201|RBS6301|RBS6302|RBS6000|RBS6601/i.test(equipmentBrand)?"Ericsson":/Nokia|Flexi Multiradio/i.test(equipmentBrand)?"Nokia":/BTS 3803|DBS 3800|BTS3812|BTS 3900|DBS\s?3900/i.test(equipmentBrand)?"Huawei":/ZXSDR BS8700/i.test(equipmentBrand)?"ZTE":/MobileAccess GX/i.test(equipmentBrand)?"Corning":equipmentBrand;
         if (typeof(mainData[operatorNameKey]) === "undefined") {
             mainData[operatorNameKey] = {};
             mainData[operatorNameKey].provinces = {};
@@ -55,7 +59,6 @@ requestify.get('http://www.ucrf.gov.ua/wp-admin/admin-ajax.php?action=get_wdtabl
         mainData[operatorNameKey].cities[cityKey].brand[equipmentBrand] = mainData[operatorNameKey].cities[cityKey].brand[equipmentBrand]?mainData[operatorNameKey].cities[cityKey].brand[equipmentBrand]+1:1;
 
     });
-
 
     for (var operatorNameKey in mainData) {
         mainData[operatorNameKey].provinces = sortObject(mainData[operatorNameKey].provinces);
