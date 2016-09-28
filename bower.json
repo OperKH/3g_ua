@@ -1,10 +1,10 @@
 {
-  "name": "3-g",
+  "name": "3g",
   "private": true,
   "dependencies": {
-    "bootstrap": "~3.3.5",
-    "sugar": "~1.4.1",
-    "tablesorter": "https://github.com/Mottie/tablesorter.git#~2.23.3"
+    "bootstrap": "^3.3.5",
+    "sugar": "^1.4.1",
+    "tablesorter": "https://github.com/Mottie/tablesorter.git#^2.23.3"
   },
   "overrides": {
     "bootstrap": {
@@ -17,7 +17,7 @@
     }
   },
   "devDependencies": {
-    "chai": "~3.2.0",
-    "mocha": "~2.2.5"
+    "chai": "^3.5.0",
+    "mocha": "^3.1.0"
   }
 }
