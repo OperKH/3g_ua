@@ -81,7 +81,13 @@ requestify.get('http://www.ucrf.gov.ua/wp-admin/admin-ajax.php?action=get_wdtabl
             caseSensitive: true,
             removeAttributeQuotes: true,
         });
-        fs.writeFile(outputIndexHtml, html);
+        fs.writeFile(outputIndexHtml, html, function(error) {
+            if (error) {
+                console.log('HTML NOT created :(');
+            } else {
+                console.log('HTML created :)');
+            }
+        });
     });
 
     // fs.writeFile(outputFilename, JSON.stringify(mainData));
