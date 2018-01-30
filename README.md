@@ -13,19 +13,22 @@ For Windows or MacOS:
 
 
 ### After node installation
-Install dependencies:
-```` bash
-npm install -g yo gulp bower
-````
-Install the generator:
-``` bash
-npm install -g generator-gulp-webapp
-```
-
 Install project packages:
 ``` bash
 npm install
 bower install
+```
+Build the project:
+``` bash
+npm run build
+```
+Genereate html file:
+``` bash
+node <full_path>/cron_scripts/updateData.js
+```
+Add updater to crontab:
+``` bash
+00 6,9,11-14,16,18,20 * * * <user> node <full_path>/cron_scripts/updateData.js
 ```
 
 ### [Website](http://3g.19min.com/)

@@ -2,20 +2,19 @@
 <html lang="uk">
   <head>
     <meta charset="utf-8">
-    <meta name="description" content="">
+    <meta name="description" content="Список базових станцій України">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>3G БС України</title>
-
+    <meta name="theme-color" content="#548">
+    <link rel="manifest" href="app.manifest">
     <!-- <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
     <!-- <link rel="icon" href="apple-touch-icon.png"> -->
     <!-- Place favicon.ico in the root directory -->
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-
     <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-
   </head>
   <body>
     <!--[if lt IE 10]>
@@ -314,10 +313,10 @@
       ga('create', 'UA-67038045-1', 'auto');
       ga('send', 'pageview');
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/sugar/release/sugar.min.js"></script>
     <script src="/bower_components/tablesorter/dist/js/jquery.tablesorter.combined.js"></script>
     <!-- endbower -->

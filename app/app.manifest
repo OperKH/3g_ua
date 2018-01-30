@@ -1,0 +1,9 @@
+{
+  "name": "3G БС України",
+  "short_name": "3G UA",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#548",
+  "description": "Список базових станцій України"
+}
