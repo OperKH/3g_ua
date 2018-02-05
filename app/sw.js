@@ -1,6 +1,7 @@
-var CACHE = '3g-ua-cache'
+var CACHE = '3g-ua-cache-v2'
+var cacheWhitelist = [CACHE];
+
 var urlsToCache = [
-  '/',
   '/app.manifest',
   '/favicon.ico',
   '/scripts/vendor.js',
@@ -16,23 +17,28 @@ self.addEventListener('install', function(event) {
   )
 })
 
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then(function(keyList) {
+      return Promise.all(keyList.map(function(key) {
+        if (cacheWhitelist.indexOf(key) === -1) {
+          return caches.delete(key);
+        }
+      }));
+    })
+  );
+})
+
 self.addEventListener('fetch', function(event) {
   event.respondWith(
-    caches.match(event.request).then(function(response) {
-      if (response) {
-        return response
-      }
-      var fetchRequest = event.request.clone()
-      return fetch(fetchRequest).then(function(response) {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response
-        }
-        var responseToCache = response.clone()
-        caches.open(CACHE).then(function(cache) {
-          cache.put(event.request, responseToCache)
+    caches.open(CACHE).then(function(cache) {
+      return cache.match(event.request).then(function(response) {
+        var fetchPromise = fetch(event.request).then(function(networkResponse) {
+          cache.put(event.request, networkResponse.clone());
+          return networkResponse;
         })
-        return response
+        return response || fetchPromise;
       })
     })
-  )
+  );
 })
