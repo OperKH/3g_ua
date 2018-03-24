@@ -6,8 +6,7 @@ var requestify = require('requestify');
 
 var frontendDir = __dirname + '/../' + (process.argv[2] || 'dist') + '/';
 var outputFilename = frontendDir + 'db.json';
-var inputIndexEjs = frontendDir + 'index.ejs';
-var outputIndexHtml = frontendDir + 'index.html';
+var templateList = ['index', 'cities']
 
 console.log('before responce');
 
@@ -20,27 +19,27 @@ requestify.get('http://www.ucrf.gov.ua/wp-admin/admin-ajax.php?action=get_wdtabl
     }
     var mainData = {};
     data.forEach(function(item){
-        var date = new Date(item[1].split("/").reverse().join("/"));
+        var date = new Date(item[1].split('/').reverse().join('/'));
         var province = item[3];
         var city = item[4];
         var cityKey = city + '_' + province;
         var equipmentBrand = item[5];
         var freq = item[7];
-        var operatorNameKey = /1922|1927|1932/i.test(freq)?"life":/1937|1942|1947/i.test(freq)?"triMob":/1952|1957|1962/i.test(freq)?"mts":/1967|1972|1977/i.test(freq)?"ks":freq;
-        equipmentBrand = /RBS2116|RBS 3206|RBS3418|RBS3518|RBS6000|RBS6101|RBS6102|RBS6201|RBS6301|RBS6302|RBS6601/i.test(equipmentBrand)?"Ericsson":/Nokia|Flexi Multiradio/i.test(equipmentBrand)?"Nokia":/BTS 3803|BTS3812|BTS 3900|DBS 3800|DTS 3803C|DBS\s?3900/i.test(equipmentBrand)?"Huawei":/ZXSDR BS8700/i.test(equipmentBrand)?"ZTE":/MobileAccess GX/i.test(equipmentBrand)?"Corning":equipmentBrand;
-        if (typeof(mainData[operatorNameKey]) === "undefined") {
+        var operatorNameKey = /1922|1927|1932/i.test(freq)?'life':/1937|1942|1947/i.test(freq)?'triMob':/1952|1957|1962/i.test(freq)?'mts':/1967|1972|1977/i.test(freq)?'ks':freq;
+        equipmentBrand = /RBS2116|RBS 3206|RBS3418|RBS3518|RBS6000|RBS6101|RBS6102|RBS6201|RBS6301|RBS6302|RBS6601/i.test(equipmentBrand)?'Ericsson':/Nokia|Flexi Multiradio/i.test(equipmentBrand)?'Nokia':/BTS 3803|BTS3812|BTS 3900|DBS 3800|DTS 3803C|DBS\s?3900/i.test(equipmentBrand)?'Huawei':/ZXSDR BS8700/i.test(equipmentBrand)?'ZTE':/MobileAccess GX/i.test(equipmentBrand)?'Corning':equipmentBrand;
+        if (typeof(mainData[operatorNameKey]) === 'undefined') {
             mainData[operatorNameKey] = {};
             mainData[operatorNameKey].provinces = {};
             mainData[operatorNameKey].cities = {};
             mainData[operatorNameKey].total = 0;
         }
-        if (typeof(mainData[operatorNameKey].provinces[province]) === "undefined") {
+        if (typeof(mainData[operatorNameKey].provinces[province]) === 'undefined') {
             mainData[operatorNameKey].provinces[province] = {};
             mainData[operatorNameKey].provinces[province].date = date;
             mainData[operatorNameKey].provinces[province].quantity = 0;
             mainData[operatorNameKey].provinces[province].brand = {};
         }
-        if (typeof(mainData[operatorNameKey].cities[cityKey]) === "undefined") {
+        if (typeof(mainData[operatorNameKey].cities[cityKey]) === 'undefined') {
             mainData[operatorNameKey].cities[cityKey] = {};
             mainData[operatorNameKey].cities[cityKey].city = city;
             mainData[operatorNameKey].cities[cityKey].province = province;
@@ -66,7 +65,18 @@ requestify.get('http://www.ucrf.gov.ua/wp-admin/admin-ajax.php?action=get_wdtabl
     }
 
     console.log('mainData ready');
-    fs.readFile(inputIndexEjs, 'utf-8', function(error, template) {
+    templateList.forEach(function(teplateName) {
+      renderTeplate(teplateName, mainData)
+    })
+
+    // fs.writeFile(outputFilename, JSON.stringify(mainData));
+
+});
+
+function renderTeplate (teplateName, mainData) {
+    var inputFile = frontendDir + teplateName + '.ejs';
+    var outputFile = frontendDir + teplateName + '.html';
+    fs.readFile(inputFile, 'utf-8', function(error, template) {
         if (error) {
             throw error;
         }
@@ -79,21 +89,17 @@ requestify.get('http://www.ucrf.gov.ua/wp-admin/admin-ajax.php?action=get_wdtabl
             removeScriptTypeAttributes: true,
             removeStyleLinkTypeAttributes: true,
             caseSensitive: true,
-            removeAttributeQuotes: true,
+            removeAttributeQuotes: true
         });
-        fs.writeFile(outputIndexHtml, html, function(error) {
+        fs.writeFile(outputFile, html, function(error) {
             if (error) {
-                console.log('HTML NOT created :(');
+                console.log(teplateName + '.html NOT created :(');
             } else {
-                console.log('HTML created :)');
+                console.log(teplateName + '.html created :)');
             }
         });
     });
-
-    // fs.writeFile(outputFilename, JSON.stringify(mainData));
-
-});
-
+}
 
 function sortObject(object){
     var sortedObj = {},

@@ -1,3 +1,24 @@
+.title-heading {
+  display: inline-block;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.1;
+  margin: 15px 15px 10px;
+}
+.title-link {
+  opacity: 0.5;
+  color: #fff;
+}
+.title-link:hover,
+.title-link:focus {
+  color: #fff;
+  text-decoration: none;
+  opacity: 0.8;
+}
+.title-link:hover:active {
+  color: #fff;
+  opacity: 1;
+}
 .panel,
 .panel-heading {
     border-radius: 0;

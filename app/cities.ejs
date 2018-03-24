@@ -22,10 +22,10 @@
     <![endif]-->
 
 <!--     <div class="container-fluid"> -->
-      <div class="provinces panel panel-header">
+      <div class="cities panel panel-header">
         <header class="panel-heading row">
-          <h2 class="title-heading">По областях</h2>
-          <a class="title-heading title-link" href="/cities.html">По містах</a>
+          <a class="title-heading title-link" href="/">По областях</a>
+          <h2 class="title-heading">По містах</h2>
         </header>
 
         <div class="panel-body">
@@ -33,11 +33,12 @@
 
             <div class="col-md-6">
               <div class="ks panel panel-ks panel-collapsible">
-                <div class="panel-heading"><b>Київстар</b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= ks.total %></span>; Областей: <span class="place-amount"><%= Object.keys(ks.provinces).length %></span></div>
+                <div class="panel-heading"><b>Київстар</b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= ks.total %></span>; Міст: <span class="place-amount"><%= Object.keys(ks.cities).length %></span></div>
                 <div class="panel-body table-holder table-responsive">
                   <table class="table table-bordered table-striped">
                     <thead>
                       <tr>
+                        <th>Місто</th>
                         <th>Область</th>
                         <th>К-ть<br/>БС</th>
                         <th>Постачальник<br/>обладнання</th>
@@ -45,13 +46,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <% for (var province in ks.provinces) { %>
+                      <% for (var city in ks.cities) { %>
                         <tr>
-                          <td><%= province %></td>
-                          <td><%= ks.provinces[province].quantity %></td>
-                          <% var brandArr = [];for (var brandKey in ks.provinces[province].brand) {brandArr.push(brandKey+'('+ks.provinces[province].brand[brandKey]+')'); } %>
+                          <td><%= ks.cities[city].city %></td>
+                          <td><%= ks.cities[city].province %></td>
+                          <td><%= ks.cities[city].quantity %></td>
+                          <% var brandArr = [];for (var brandKey in ks.cities[city].brand) {brandArr.push(brandKey+'('+ks.cities[city].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <% var d = new Date(ks.provinces[province].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
+                          <% var d = new Date(ks.cities[city].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
                           <td><%= (day<10?"0"+day:day) + "." + (mon<10?"0"+mon:mon) + "." + year %></td>
                         </tr>
                       <% } %>
@@ -63,11 +65,12 @@
 
             <div class="col-md-6">
               <div class="mts panel panel-mts panel-collapsible">
-                <div class="panel-heading"><b>МТС</b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= mts.total %></span>; Областей: <span class="place-amount"><%= Object.keys(mts.provinces).length %></span></div>
+                <div class="panel-heading"><b>МТС</b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= mts.total %></span>; Міст: <span class="place-amount"><%= Object.keys(mts.cities).length %></span></div>
                 <div class="panel-body table-holder table-responsive">
                   <table class="table table-bordered table-striped">
                     <thead>
                       <tr>
+                        <th>Місто</th>
                         <th>Область</th>
                         <th>К-ть<br/>БС</th>
                         <th>Постачальник<br/>обладнання</th>
@@ -75,13 +78,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <% for (var province in mts.provinces) { %>
+                      <% for (var city in mts.cities) { %>
                         <tr>
-                          <td><%= province %></td>
-                          <td><%= mts.provinces[province].quantity %></td>
-                          <% var brandArr = [];for (var brandKey in mts.provinces[province].brand) {brandArr.push(brandKey+'('+mts.provinces[province].brand[brandKey]+')'); } %>
+                          <td><%= mts.cities[city].city %></td>
+                          <td><%= mts.cities[city].province %></td>
+                          <td><%= mts.cities[city].quantity %></td>
+                          <% var brandArr = [];for (var brandKey in mts.cities[city].brand) {brandArr.push(brandKey+'('+mts.cities[city].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <% var d = new Date(mts.provinces[province].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
+                          <% var d = new Date(mts.cities[city].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
                           <td><%= (day<10?"0"+day:day) + "." + (mon<10?"0"+mon:mon) + "." + year %></td>
                         </tr>
                       <% } %>
@@ -96,11 +100,12 @@
 
             <div class="col-md-6">
               <div class="life panel panel-life panel-collapsible">
-                <div class="panel-heading"><b>life :)</b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= life.total %></span>; Областей: <span class="place-amount"><%= Object.keys(life.provinces).length %></span></div>
+                <div class="panel-heading"><b>life :)</b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= life.total %></span>; Міст: <span class="place-amount"><%= Object.keys(life.cities).length %></span></div>
                 <div class="panel-body table-holder table-responsive">
                   <table class="table table-bordered table-striped">
                     <thead>
                       <tr>
+                        <th>Місто</th>
                         <th>Область</th>
                         <th>К-ть<br/>БС</th>
                         <th>Постачальник<br/>обладнання</th>
@@ -108,13 +113,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <% for (var province in life.provinces) { %>
+                      <% for (var city in life.cities) { %>
                         <tr>
-                          <td><%= province %></td>
-                          <td><%= life.provinces[province].quantity %></td>
-                          <% var brandArr = [];for (var brandKey in life.provinces[province].brand) {brandArr.push(brandKey+'('+life.provinces[province].brand[brandKey]+')'); } %>
+                          <td><%= life.cities[city].city %></td>
+                          <td><%= life.cities[city].province %></td>
+                          <td><%= life.cities[city].quantity %></td>
+                          <% var brandArr = [];for (var brandKey in life.cities[city].brand) {brandArr.push(brandKey+'('+life.cities[city].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <% var d = new Date(life.provinces[province].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
+                          <% var d = new Date(life.cities[city].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
                           <td><%= (day<10?"0"+day:day) + "." + (mon<10?"0"+mon:mon) + "." + year %></td>
                         </tr>
                       <% } %>
@@ -126,11 +132,12 @@
 
             <div class="col-md-6">
               <div class="triMob panel panel-triMob panel-collapsible">
-                <div class="panel-heading"><b>3Mob</b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= triMob.total %></span>; Областей: <span class="place-amount"><%= Object.keys(triMob.provinces).length %></span></div>
+                <div class="panel-heading"><b>3Mob</b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= triMob.total %></span>; Міст: <span class="place-amount"><%= Object.keys(triMob.cities).length %></span></div>
                 <div class="panel-body table-holder table-responsive">
                   <table class="table table-bordered table-striped">
                     <thead>
                       <tr>
+                        <th>Місто</th>
                         <th>Область</th>
                         <th>К-ть<br/>БС</th>
                         <th>Постачальник<br/>обладнання</th>
@@ -138,13 +145,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <% for (var province in triMob.provinces) { %>
+                      <% for (var city in triMob.cities) { %>
                         <tr>
-                          <td><%= province %></td>
-                          <td><%= triMob.provinces[province].quantity %></td>
-                          <% var brandArr = [];for (var brandKey in triMob.provinces[province].brand) {brandArr.push(brandKey+'('+triMob.provinces[province].brand[brandKey]+')'); } %>
+                          <td><%= triMob.cities[city].city %></td>
+                          <td><%= triMob.cities[city].province %></td>
+                          <td><%= triMob.cities[city].quantity %></td>
+                          <% var brandArr = [];for (var brandKey in triMob.cities[city].brand) {brandArr.push(brandKey+'('+triMob.cities[city].brand[brandKey]+')'); } %>
                           <td><%= brandArr.join(", ") %></td>
-                          <% var d = new Date(triMob.provinces[province].date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
+                          <% var d = new Date(triMob.cities[city].date); var year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate() %>
                           <td><%= (day<10?"0"+day:day) + "." + (mon<10?"0"+mon:mon) + "." + year %></td>
                         </tr>
                       <% } %>
@@ -156,8 +164,6 @@
 
           </div>
         </div>
-
-
       </div>
 
     <!-- </div> -->
