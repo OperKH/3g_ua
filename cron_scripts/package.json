@@ -1,14 +1,23 @@
 {
   "name": "cron_update",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node ./updateData"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "ejs": "^2.3.4",
-    "fs": "0.0.2",
-    "html-minifier": "^1.1.1",
-    "requestify": "^0.1.17"
+    "html-minifier": "^1.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.10.0"
+  },
+  "engines": {
+    "node": ">= 8.0.0",
+    "npm": ">= 5.0.0"
   }
 }

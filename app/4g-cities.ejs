@@ -22,63 +22,64 @@
     <![endif]-->
 
 <!--     <div class="container-fluid"> -->
-      <div class="provinces panel panel-header">
+      <div class="cities panel panel-header">
         <header class="panel-heading">
           <div class="row">
-            <h2 class="title-heading">4G по областях</h2>
-            <a class="title-heading title-link" href="/4g-cities.html">4G по містах</a>
+            <a class="title-heading title-link" href="/">4G по областях</a>
+            <h2 class="title-heading">4G по містах</h2>
             <a class="title-heading title-link" href="/3g-provinces.html">3G по областях</a>
-            <a class="title-heading title-link" href="/3g-cities.html">4G по містах</a>
+            <a class="title-heading title-link" href="/3g-cities.html">3G по містах</a>
           </div>
         </header>
-
         <div class="panel-body">
-        <% operatorsConfig.forEach(row => { %>
-          <div class="row">
-          <% row.forEach(operatorConfig => {
-            const operator = data.operators[operatorConfig.key]
-          %>
-          <div class="col-md-6">
-            <div class="<%= operatorConfig.key %> panel panel-<%= operatorConfig.key %> panel-collapsible">
-              <div class="panel-heading"><b><%= operatorConfig.name %></b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= data.operators[operatorConfig.key].total %></span>; Областей: <span class="place-amount"><%= operator.values.length %></span></div>
-              <div class="panel-body table-holder table-responsive">
-                <table class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <th>Область</th>
-                      <th>К-ть<br/>БС</th>
-                      <th>Постачальник<br/>обладнання</th>
-                      <th>Останнє<br/>додавання</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <% operator.values.forEach(op => {
-                    const d = new Date(op.date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate()
-                    const date = `${day<10?"0"+day:day}.${mon<10?"0"+mon:mon}.${year}`
-                  %>
-                    <tr>
-                      <td><%= op.province %></td>
-                      <td><%= op.quantity %></td>
-                      <td><%= op.brands %></td>
-                      <td><%= date %></td>
-                    </tr>
-                  <% }) %>
-                  </tbody>
-                </table>
+          <% operatorsConfig.forEach(row => { %>
+            <div class="row">
+            <% row.forEach(operatorConfig => {
+              const operator = data.operators[operatorConfig.key]
+            %>
+            <div class="col-md-6">
+              <div class="<%= operatorConfig.key %> panel panel-<%= operatorConfig.key %> panel-collapsible">
+                <div class="panel-heading"><b><%= operatorConfig.name %></b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= data.operators[operatorConfig.key].total %></span>; Міст: <span class="place-amount"><%= operator.values.length %></span></div>
+                <div class="panel-body table-holder table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>Місто</th>
+                        <th>Область</th>
+                        <th>К-ть<br/>БС</th>
+                        <th>Постачальник<br/>обладнання</th>
+                        <th>Останнє<br/>додавання</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <% operator.values.forEach(op => {
+                      const d = new Date(op.date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate()
+                      const date = `${day<10?"0"+day:day}.${mon<10?"0"+mon:mon}.${year}`
+                    %>
+                      <tr>
+                        <td><%= op.city %></td>
+                        <td><%= op.province %></td>
+                        <td><%= op.quantity %></td>
+                        <td><%= op.brands %></td>
+                        <td><%= date %></td>
+                      </tr>
+                    <% }) %>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
+            <% }) %>
+            </div>
           <% }) %>
           </div>
-        <% }) %>
         </div>
       </div>
 
       <footer class="footer col-md-12">
-        <a  class="pull-left" href="https://4g.19min.com/">Готуємося до <strong>4G</strong> (бета)</a>
-        <span class="pull-right" ><b>Оновлено</b> <%= (new Date).toLocaleString('UA-ua') %></span>
+        <a href="https://4g.19min.com/">Готуємося до <strong>4G</strong> (бета)</a>
+        <span><b>Оновлено</b> <%= (new Date).toLocaleString('UA-ua') %></span>
       </footer>
-
     <!-- </div> -->
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

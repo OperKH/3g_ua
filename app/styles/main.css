@@ -64,12 +64,12 @@
     border-color: #35a027;
 }
 .panel-life > .panel-heading {
-    color: #fff;
-    background-color: #e50043;
+    color: #0a59a9;
+    background-color: #fab30d;
 }
 .panel-life,
 .panel-life > .panel-heading {
-    border-color: #e50043;
+    border-color: #fab30d;
 }
 .panel-mts > .panel-heading {
     color: #fff;

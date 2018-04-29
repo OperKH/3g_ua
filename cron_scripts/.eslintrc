@@ -1,0 +1,39 @@
+{
+  "extends": [
+    "airbnb-base",
+    "prettier"
+  ],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "root": true,
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".mjs"
+        ]
+      }
+    }
+  },
+  "rules": {
+    "no-console": 0,
+    "semi": [
+      2,
+      "never"
+    ],
+    "import/extensions": [
+      "error",
+      "always",
+      {
+        "js": "never",
+        "mjs": "never"
+      }
+    ]
+  }
+}
