@@ -163,14 +163,20 @@ const processUCRFStatistic = async () => {
 
   Object.values(mainData).forEach(type => {
     Object.values(type.operators).forEach(operator => {
+      const values = Object.values(operator.values)
+        .map(value => ({
+          ...value,
+          brands: Object.keys(value.brands)
+            .sort((a, b) => a.localeCompare(b))
+            .map(name => `${name}(${value.brands[name]})`)
+            .join(', '),
+        }))
+        .sort((a, b) => a.province.localeCompare(b.province))
+      if ('city' in values[0]) {
+        values.sort((a, b) => a.city.localeCompare(b.city))
+      }
       // eslint-disable-next-line no-param-reassign
-      operator.values = Object.values(operator.values).map(value => ({
-        ...value,
-        brands: Object.keys(value.brands)
-          .sort((a, b) => a.localeCompare(b))
-          .map(name => `${name}(${value.brands[name]})`)
-          .join(', '),
-      }))
+      operator.values = values
     })
   })
 
