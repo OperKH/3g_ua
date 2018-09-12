@@ -45,20 +45,20 @@ const getEquipmentBrandByModelName = modelName => {
   return modelName
 }
 
-const getUCRFStatistic = async techology => {
+const getUCRFStatistic = async technology => {
   try {
     const res = await axios.get('http://www.ucrf.gov.ua/wp-admin/admin-ajax.php', {
       params: {
         action: 'get_wdtable',
         table_id: 1,
         sEcho: 1,
-        sSearch_9: techology,
+        sSearch_9: technology,
         bSearchable_9: true,
       },
     })
     return res.data.aaData
   } catch (e) {
-    console.log(`UCRF ${techology} Statistic Request Error.`)
+    console.log(`UCRF ${technology} Statistic Request Error.`)
     return []
   }
 }
@@ -187,10 +187,10 @@ const processUCRFStatistic = async () => {
   return mainData
 }
 
-const renderTeplate = (teplateName, data, operatorsConfig) => {
+const renderTemplate = (templateName, data, operatorsConfig) => {
   return new Promise((res, rej) => {
-    const inputFile = path.resolve(frontendDir, `${teplateName}.ejs`)
-    const outputFile = path.resolve(frontendDir, `${teplateName}.html`)
+    const inputFile = path.resolve(frontendDir, `${templateName}.ejs`)
+    const outputFile = path.resolve(frontendDir, `${templateName}.html`)
     fs.readFile(inputFile, 'utf-8', (error, template) => {
       if (error) rej()
       const html = minify(ejs.render(template, { data, operatorsConfig }), {
@@ -206,10 +206,10 @@ const renderTeplate = (teplateName, data, operatorsConfig) => {
       })
       fs.writeFile(outputFile, html, err => {
         if (err) {
-          console.log(`  ${teplateName}.html NOT created :(`)
+          console.log(`  ${templateName}.html NOT created :(`)
           rej()
         } else {
-          console.log(`  ${teplateName}.html created :)`)
+          console.log(`  ${templateName}.html created :)`)
           res()
         }
       })
@@ -292,11 +292,11 @@ const renderTeplate = (teplateName, data, operatorsConfig) => {
   ]
 
   // templateList.forEach(({ name, type, key }) => {
-    // renderTeplate(name, statistic[key], operatorsConfig[type])
+  // renderTemplate(name, statistic[key], operatorsConfig[type])
   // })
   for (let t of templateList) {
     const { name, type, key } = t
-    await renderTeplate(name, statistic[key], operatorsConfig[type])
+    await renderTemplate(name, statistic[key], operatorsConfig[type])
   }
 
   console.log(getProgress(), 'END.')
