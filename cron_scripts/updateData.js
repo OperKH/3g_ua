@@ -17,11 +17,14 @@ const getProgress = () => {
 const getOperatorByFreq = freq => {
   if (/-1750|1967|1972|1977|-\s?2535/i.test(freq)) {
     return 'ks'
-  } else if (/-1770|1952|1957|1962|-2520/i.test(freq)) {
+  }
+  if (/-1770|1952|1957|1962|-2520/i.test(freq)) {
     return 'mts'
-  } else if (/-1725|1922|1927|1932|-2545/i.test(freq)) {
+  }
+  if (/-1725|1922|1927|1932|-2545/i.test(freq)) {
     return 'life'
-  } else if (/1937|1942|1947/i.test(freq)) {
+  }
+  if (/1937|1942|1947/i.test(freq)) {
     return 'triMob'
   }
   return 'unknown'
@@ -33,13 +36,17 @@ const getEquipmentBrandByModelName = modelName => {
     )
   ) {
     return 'Ericsson'
-  } else if (/Nokia|Flexi Multiradio|BTS Optima|BTS Supreme/i.test(modelName)) {
+  }
+  if (/Nokia|Flexi Multiradio|BTS Optima|BTS Supreme/i.test(modelName)) {
     return 'Nokia'
-  } else if (/BTS 3803|BTS3812|BTS 3900|DBS 3800|DTS 3803C|DBS\s?3900/i.test(modelName)) {
+  }
+  if (/BTS 3803|BTS3812|BTS 3900|DBS 3800|DTS 3803C|DBS\s?3900/i.test(modelName)) {
     return 'Huawei'
-  } else if (/ZXSDR BS8700/i.test(modelName)) {
+  }
+  if (/ZXSDR BS8700/i.test(modelName)) {
     return 'ZTE'
-  } else if (/MobileAccess GX/i.test(modelName)) {
+  }
+  if (/MobileAccess GX/i.test(modelName)) {
     return 'Corning'
   }
   return modelName
@@ -187,8 +194,8 @@ const processUCRFStatistic = async () => {
   return mainData
 }
 
-const renderTemplate = (templateName, data, operatorsConfig) => {
-  return new Promise((res, rej) => {
+const renderTemplate = (templateName, data, operatorsConfig) =>
+  new Promise((res, rej) => {
     const inputFile = path.resolve(frontendDir, `${templateName}.ejs`)
     const outputFile = path.resolve(frontendDir, `${templateName}.html`)
     fs.readFile(inputFile, 'utf-8', (error, template) => {
@@ -215,7 +222,6 @@ const renderTemplate = (templateName, data, operatorsConfig) => {
       })
     })
   })
-}
 ;(async () => {
   console.log(' START')
   let statistic
@@ -224,6 +230,8 @@ const renderTemplate = (templateName, data, operatorsConfig) => {
   } catch (e) {
     console.log(e)
   }
+
+  console.log(getProgress(), 'Generating HTMLs...')
 
   const operatorsConfig = {
     '3g': [
@@ -291,15 +299,11 @@ const renderTemplate = (templateName, data, operatorsConfig) => {
     },
   ]
 
-  // templateList.forEach(({ name, type, key }) => {
-  // renderTemplate(name, statistic[key], operatorsConfig[type])
-  // })
-  for (let t of templateList) {
-    const { name, type, key } = t
-    await renderTemplate(name, statistic[key], operatorsConfig[type])
-  }
+  await Promise.all(
+    templateList.map(({ name, type, key }) => renderTemplate(name, statistic[key], operatorsConfig[type])),
+  )
 
-  console.log(getProgress(), 'END.')
+  console.log(getProgress(), 'Done!\n')
 
   // fs.writeFile(path.resolve(frontendDir, 'db.json'), JSON.stringify(statistic), () => {})
 })()
