@@ -33,16 +33,18 @@
         <a class="title-heading title-link" href="/3g-cities.html">3G по містах</a>
       </div>
     </header>
+
     <div class="panel-body">
       <% operatorsConfig.forEach(row => { %>
         <div class="row">
           <% row.forEach(operatorConfig => {
-              const operator = data.operators[operatorConfig.key]
-            %>
+            const operator = data.operators[operatorConfig.key]
+          %>
             <div class="col-md-6">
               <div class="<%= operatorConfig.key %> panel panel-<%= operatorConfig.key %> panel-collapsible">
-                <div class="panel-heading"><b><%= operatorConfig.name %></b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= data.operators[operatorConfig.key].total %></span>; Міст: <span
-                    class="place-amount"><%= operator.values.length %></span></div>
+                <div class="panel-heading">
+                  <b><%= operatorConfig.name %></b>&nbsp;&nbsp;&nbsp;БС: <span class="bs-amount"><%= data.operators[operatorConfig.key].total %></span>; Міст: <span class="place-amount"><%= operator.values.length %></span>
+                </div>
                 <div class="panel-body table-holder table-responsive">
                   <table class="table table-bordered table-striped">
                     <thead>
@@ -59,9 +61,9 @@
                     </thead>
                     <tbody>
                       <% operator.values.forEach(op => {
-                      const d = new Date(op.date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate()
-                      const date = `${day<10?"0"+day:day}.${mon<10?"0"+mon:mon}.${year}`
-                    %>
+                        const d = new Date(op.date), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate()
+                        const date = `${day<10?"0"+day:day}.${mon<10?"0"+mon:mon}.${year}`
+                      %>
                         <tr>
                           <td>
                             <%= op.city %>
@@ -79,7 +81,7 @@
                             <%= date %>
                           </td>
                         </tr>
-                        <% }) %>
+                      <% }) %>
                     </tbody>
                   </table>
                 </div>
@@ -93,7 +95,11 @@
   </div>
 
   <footer class="footer col-md-12">
-    <span class="pull-right"><b>Оновлено</b> <%= (new Date).toLocaleString('UA-ua') %></span>
+    <%
+      const d = new Date(), year = d.getFullYear(), mon = (d.getMonth() + 1), day = d.getDate()
+      const updatedDate = `${day<10?"0"+day:day}.${mon<10?"0"+mon:mon}.${year} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+    %>
+    <span class="pull-right"><b>Оновлено</b>: <%= updatedDate %></span>
   </footer>
   <!-- </div> -->
 
