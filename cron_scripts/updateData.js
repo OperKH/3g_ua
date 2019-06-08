@@ -231,6 +231,8 @@ const renderTemplate = (templateName, data, operatorsConfig) =>
     console.log(e)
   }
 
+  if (!statistic) return
+
   console.log(getProgress(), 'Generating HTMLs...')
 
   const operatorsConfig = {
