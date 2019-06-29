@@ -2,9 +2,27 @@ const fs = require('fs')
 const path = require('path')
 const ejs = require('ejs')
 const { minify } = require('html-minifier')
+const jsdom = require('jsdom')
+const jquery = require('jquery')
+const https = require('https')
 const axios = require('axios')
 
 const frontendDir = path.resolve(__dirname, '..', 'dist')
+
+const { JSDOM } = jsdom
+const { window } = new JSDOM()
+const $ = jquery(window)
+
+const ucrfPartialsKey = 'listRegistriesCentralized::items'
+const ucrfAPI = axios.create({
+  baseURL: 'https://www.ucrf.gov.ua/ua/services/centralized-registries',
+  headers: {
+    'X-OCTOBER-REQUEST-HANDLER': 'listRegistriesCentralized::onFilterRegistries',
+    'X-OCTOBER-REQUEST-PARTIALS': ucrfPartialsKey,
+    'X-Requested-With': 'XMLHttpRequest',
+  },
+  httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+})
 
 let prevStartDate = new Date()
 const getProgress = () => {
@@ -52,21 +70,276 @@ const getEquipmentBrandByModelName = modelName => {
   return modelName
 }
 
-const getUCRFStatistic = async technology => {
+const provinceCorrector = province => {
+  switch (province) {
+    case '??Р Крим':
+      return 'АР Крим'
+    case 'Вінни??ька':
+    case 'Вінниц??ка':
+    case 'Вінницьк??':
+      return 'Вінницька'
+    case '??ніпропетровська':
+    case 'Дн??пропетровська':
+    case 'Дні??ропетровська':
+    case 'Дніп??опетровська':
+    case 'Дніпроп??тровська':
+    case 'Дніпропе??ровська':
+    case 'Дніпропетр??вська':
+    case 'Дніпропетров??ька':
+    case 'Дніпропетровсь??а':
+    case 'Дніпропетровськ??':
+      return 'Дніпропетровська'
+    case 'Дон??цька':
+    case 'Доне??ька':
+    case 'Донець??а':
+      return 'Донецька'
+    case '??итомирська':
+    case 'Ж??томирська':
+    case 'Жито??ирська':
+      return 'Житомирська'
+    case 'За??арпатська':
+    case 'Закарпа??ська':
+    case 'Закарпатс??ка':
+      return 'Закарпатська'
+    case 'Зап??різька':
+    case 'Запоріз??ка':
+    case 'Запорізьк??':
+      return 'Запорізька'
+    case 'Івано-Франкі??ська':
+      return 'Івано-Франківська'
+    case '??иїв':
+    case 'Киї??':
+      return 'Київ'
+    case 'К??ївська':
+    case 'Київсь??а':
+      return 'Київська'
+    case 'Кіров??градська':
+    case 'Кіровогр??дська':
+    case 'Кіровогра??ська':
+    case 'Кіровоградськ??':
+      return 'Кіровоградська'
+    case 'Луг??нська':
+      return 'Луганська'
+    case 'Льві??ська':
+    case 'Львівськ??':
+      return 'Львівська'
+    case '??иколаївська':
+    case 'Миколаї??ська':
+    case 'Миколаїв??ька':
+    case 'Миколаївс??ка':
+      return 'Миколаївська'
+    case '??деська':
+    case 'О??еська':
+      return 'Одеська'
+    case 'Пол??авська':
+    case 'Полт??вська':
+    case 'Полтав??ька':
+      return 'Полтавська'
+    case 'Рі??ненська':
+    case 'Р??вненська':
+    case 'Рівнен??ька':
+    case 'Рівненсь??а':
+    case 'Рівненськ??':
+      return 'Рівненська'
+    case 'Сумсь??а':
+      return 'Сумська'
+    case 'Тернопі??ьська':
+    case 'Тернопільськ??':
+      return 'Тернопільська'
+    case '??арківська':
+    case 'Хар??івська':
+    case 'Харк??вська':
+    case 'Харкі??ська':
+    case 'Харківсь??а':
+    case 'Харківськ??':
+      return 'Харківська'
+    case 'Хе??сонська':
+    case 'Хер??онська':
+    case 'Херс??нська':
+    case 'Херсон??ька':
+    case 'Херсонсь??а':
+      return 'Херсонська'
+    case '??мельницька':
+    case 'Хме??ьницька':
+    case 'Хмель??ицька':
+    case 'Хмельни??ька':
+    case 'Хмельниць??а':
+      return 'Хмельницька'
+    case '??еркаська':
+    case 'Черк??ська':
+      return 'Черкаська'
+    case 'Ч??рнівецька':
+      return 'Чернівецька'
+    case 'Ч??рнігівська':
+    case 'Черн??гівська':
+    case 'Чернігі??ська':
+      return 'Чернігівська'
+    default:
+      return province
+  }
+}
+
+const cityCorrector = city => {
+  switch (city) {
+    case 'А??ушта':
+      return 'Алушта'
+    case 'Б??лики':
+      return 'Білики'
+    case 'Бал??вне':
+      return 'Баловне'
+    case 'Ба??вінок':
+      return 'Барвінок'
+    case 'Борщі??':
+      return 'Борщів'
+    case '??ровари':
+      return 'Бровари'
+    case 'Бр??силів':
+      return 'Брусилів'
+    case 'Ве??ика Северинка':
+      return 'Велика Северинка'
+    case 'Великосілк??':
+      return 'Великосілки'
+    case 'Воскрес??нське':
+      return 'Воскресенське'
+    case 'Г??ушово':
+      return 'Грушово'
+    case '??ніпро':
+    case 'Д??іпро':
+    case 'Дні??ро':
+      return 'Дніпро'
+    case 'До??ецьк':
+      return 'Донецьк'
+    case '??олинівка':
+      return 'Долинівка'
+    case 'Д??лятин':
+      return 'Делятин'
+    case 'Дубровиц??':
+      return 'Дубровиця'
+    case 'З??іїв':
+      return 'Зміїв'
+    case 'З??лізний Порт':
+      return 'Залізний Порт'
+    case 'Запор??жжя':
+      return 'Запоріжжя'
+    case 'Іллінц??':
+      return 'Іллінці'
+    case 'Ірп??нь':
+      return 'Ірпінь'
+    case "К??м'яне":
+      return "Кам'яне"
+    case "Кам'янець-Поділ??ський":
+      return "Кам'янець-Подільський"
+    case 'Ки??в':
+      return 'Київ'
+    case 'Кіц??ань':
+      return 'Кіцмань'
+    case 'Конопн??ця':
+      return 'Конопниця'
+    case 'Кос??янтинівка':
+    case 'Костянт??нівка':
+      return 'Костянтинівка'
+    case '??ривий Ріг':
+    case 'К??ивий Ріг':
+    case 'Криви?? Ріг':
+      return 'Кривий Ріг'
+    case 'Кропив??ицький':
+      return 'Кропивницький'
+    case 'Лісов?? Гринівці':
+      return 'Лісові Гринівці'
+    case 'Лу??ьк':
+      return 'Луцьк'
+    case 'Ль??ів':
+    case 'Льв??в':
+      return 'Львів'
+    case 'М??ріуполь':
+    case 'Марі??поль':
+    case 'Маріуп??ль':
+      return 'Маріуполь'
+    case 'Межирі??ка':
+      return 'Межирічка'
+    case 'Мико??аїв':
+      return 'Миколаїв'
+    case 'О??еса':
+    case 'Од??са':
+      return 'Одеса'
+    case 'Переход??':
+      return 'Переходи'
+    case 'Підг??йці':
+      return 'Підгайці'
+    case 'Поча??в':
+      return 'Почаїв'
+    case 'При??ипче':
+      return 'Прилипче'
+    case 'Рожняті??':
+      return 'Рожнятів'
+    case 'Рок??тне':
+      return 'Рокитне'
+    case 'Ружи??':
+      return 'Ружин'
+    case 'Свято??етрівське':
+      return 'Святопетрівське'
+    case 'С??вєродонецьк':
+      return 'Сєвєродонецьк'
+    case 'Старос??лля':
+      return 'Старосілля'
+    case 'Стар??й Олексинець':
+      return 'Старий Олексинець'
+    case 'Стр??мівка':
+      return 'Струмівка'
+    case 'Су??и':
+    case '??уми':
+      return 'Суми'
+    case 'Ужг??род':
+      return 'Ужгород'
+    case 'Х??рол':
+      return 'Хорол'
+    case 'Цюрупинс??к':
+      return 'Цюрупинськ'
+    case 'Цуман??':
+      return 'Цумань'
+    case '??еркаси':
+      return 'Черкаси'
+    case 'Чернів??і':
+      return 'Чернівці'
+    case '??асливцеве':
+      return 'Щасливцеве'
+    case '??жне':
+      return 'Южне'
+    default:
+      return city
+  }
+}
+
+const getUCRFStatistic = async (technology, page = 1, prevStatistic = {}) => {
   try {
-    const res = await axios.get('http://www.ucrf.gov.ua/wp-admin/admin-ajax.php', {
+    const res = await ucrfAPI.post('', null, {
       params: {
-        action: 'get_wdtable',
-        table_id: 1,
-        sEcho: 1,
-        sSearch_9: technology,
-        bSearchable_9: true,
+        technology,
+        page,
+        per_page: 200,
       },
     })
-    return res.data.aaData
+    const $html = $(res.data[ucrfPartialsKey])
+    const statistic = Array.from(
+      $html
+        .siblings('table')
+        .find('tbody')
+        .find('tr'),
+    ).map(tr => Array.from($(tr).find('td')).map(td => td.innerHTML))
+    const lastPageText = $html
+      .siblings('.row')
+      .find('.pagination')
+      .find('li')
+      .last()
+      .prev()
+      .text()
+    const lastPage = parseInt(lastPageText, 10)
+    const result = { ...prevStatistic, ...statistic.reduce((acc, s) => ({ ...acc, [s[0]]: s }), {}) }
+    console.log(`     ${technology} page: ${page}/${lastPage}`)
+    return page === lastPage ? Object.values(result) : getUCRFStatistic(technology, page + 1, result)
   } catch (e) {
     console.log(`UCRF ${technology} Statistic Request Error.`)
-    return []
+    return prevStatistic
   }
 }
 const getMergedUCRFStatistic = async () => {
@@ -76,7 +349,7 @@ const getMergedUCRFStatistic = async () => {
     getUCRFStatistic('LTE-1800'),
     getUCRFStatistic('LTE-2600'),
   ])
-  return [].concat(...statistic)
+  return statistic.flat()
 }
 
 const processUCRFStatistic = async () => {
@@ -92,14 +365,9 @@ const processUCRFStatistic = async () => {
   console.log(getProgress(), 'Parsing UCRF Statistic...')
 
   data.forEach(item => {
-    const date = new Date(
-      item[1]
-        .split('/')
-        .reverse()
-        .join('/'),
-    )
-    const province = item[3]
-    const city = item[4]
+    const date = new Date(item[1])
+    const province = provinceCorrector(item[3])
+    const city = cityCorrector(item[4])
     const equipmentModelName = item[5]
     const freq = item[7]
     const technology = item[9]
