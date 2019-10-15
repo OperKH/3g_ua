@@ -47,6 +47,19 @@ const getOperatorByFreq = freq => {
   }
   return 'unknown'
 }
+
+const getTechnologyKey = technology => {
+  switch (technology) {
+    case 'UMTS':
+      return '3g'
+    case 'LTE-1800':
+    case 'LTE-2600':
+      return '4g'
+    default:
+      return 'unknown'
+  }
+}
+
 const getEquipmentBrandByModelName = modelName => {
   if (
     /RBS2116|RBS 3206|RBS3418|RBS3518|Radio 4415|RBS6000|RBS6101|RBS\s?6102|RBS\s?6201|RBS6301|RBS6302|RBS6601/i.test(
@@ -70,207 +83,43 @@ const getEquipmentBrandByModelName = modelName => {
   return modelName
 }
 
+const provincesList = [
+  'АР Крим',
+  'Вінницька',
+  'Волинська',
+  'Дніпропетровська',
+  'Донецька',
+  'Житомирська',
+  'Закарпатська',
+  'Запорізька',
+  'Івано-Франківська',
+  'Київ',
+  'Київська',
+  'Кіровоградська',
+  'Луганська',
+  'Львівська',
+  'Миколаївська',
+  'Одеська',
+  'Полтавська',
+  'Рівненська',
+  'Сумська',
+  'Тернопільська',
+  'Харківська',
+  'Херсонська',
+  'Хмельницька',
+  'Черкаська',
+  'Чернівецька',
+  'Чернігівська',
+]
+
+const corruptedSymbol = '??'
+
 const provinceCorrector = province => {
-  switch (province) {
-    case '??Р Крим':
-      return 'АР Крим'
-    case '??інницька':
-    case 'Він??ицька':
-    case 'Вінни??ька':
-    case 'Вінниц??ка':
-    case 'Вінницьк??':
-      return 'Вінницька'
-    case 'Воли??ська':
-      return 'Волинська'
-    case '??ніпропетровська':
-    case 'Д??іпропетровська':
-    case 'Дн??пропетровська':
-    case 'Дні??ропетровська':
-    case 'Дніп??опетровська':
-    case 'Дніпр??петровська':
-    case 'Дніпро??етровська':
-    case 'Дніпроп??тровська':
-    case 'Дніпропе??ровська':
-    case 'Дніпропет??овська':
-    case 'Дніпропетр??вська':
-    case 'Дніпропетро??ська':
-    case 'Дніпропетров??ька':
-    case 'Дніпропетровс??ка':
-    case 'Дніпропетровсь??а':
-    case 'Дніпропетровськ??':
-      return 'Дніпропетровська'
-    case '??онецька':
-    case 'Д??нецька':
-    case 'До??ецька':
-    case 'Дон??цька':
-    case 'Доне??ька':
-    case 'Донець??а':
-      return 'Донецька'
-    case '??итомирська':
-    case 'Ж??томирська':
-    case 'Жит??мирська':
-    case 'Жито??ирська':
-    case 'Житом??рська':
-    case 'Житоми??ська':
-    case 'Житомирс??ка':
-      return 'Житомирська'
-    case 'За??арпатська':
-    case 'Зак??рпатська':
-    case 'Закарп??тська':
-    case 'Закарпа??ська':
-    case 'Закарпатс??ка':
-    case 'Закарпатськ??':
-      return 'Закарпатська'
-    case '??апорізька':
-    case 'З??порізька':
-    case 'За??орізька':
-    case 'Зап??різька':
-    case 'Запо??ізька':
-    case 'Запоріз??ка':
-    case 'Запорізь??а':
-    case 'Запорізьк??':
-      return 'Запорізька'
-    case 'Ів??но-Франківська':
-    case 'Іван??-Франківська':
-    case 'Іва??о-Франківська':
-    case 'Івано-Фран??івська':
-    case 'Івано-Франкі??ська':
-    case 'Івано-Франківс??ка':
-    case 'Івано-Франківсь??а':
-    case 'Івано-Франківськ??':
-      return 'Івано-Франківська'
-    case '??иїв':
-    case 'К??їв':
-    case 'Ки??в':
-    case 'Киї??':
-      return 'Київ'
-    case 'К??ївська':
-    case 'Ки??вська':
-    case 'Киї??ська':
-    case 'Київс??ка':
-    case 'Київсь??а':
-    case 'Київськ??':
-      return 'Київська'
-    case 'К??ровоградська':
-    case 'Кір??воградська':
-    case 'Кіров??градська':
-    case 'Кіровогр??дська':
-    case 'Кіровогра??ська':
-    case 'Кіровоградс??ка':
-    case 'Кіровоградськ??':
-      return 'Кіровоградська'
-    case 'Л??ганська':
-    case 'Луг??нська':
-    case 'Лугансь??а':
-      return 'Луганська'
-    case '??ьвівська':
-    case 'Ль??івська':
-    case 'Льві??ська':
-    case 'Львів??ька':
-    case 'Львівс??ка':
-    case 'Львівсь??а':
-    case 'Львівськ??':
-      return 'Львівська'
-    case '??иколаївська':
-    case 'Мико??аївська':
-    case 'Миколаї??ська':
-    case 'Миколаїв??ька':
-    case 'Миколаївс??ка':
-    case 'Миколаївсь??а':
-      return 'Миколаївська'
-    case '??деська':
-    case 'О??еська':
-    case 'Од??ська':
-    case 'Оде??ька':
-    case 'Одес??ка':
-    case 'Одесь??а':
-    case 'Одеськ??':
-      return 'Одеська'
-    case '??олтавська':
-    case 'По??тавська':
-    case 'Пол??авська':
-    case 'Полт??вська':
-    case 'Полтав??ька':
-    case 'Полтавськ??':
-      return 'Полтавська'
-    case 'Рі??ненська':
-    case 'Р??вненська':
-    case 'Рівн??нська':
-    case 'Рівнен??ька':
-    case 'Рівненсь??а':
-    case 'Рівненськ??':
-      return 'Рівненська'
-    case 'Су??ська':
-    case 'Сумс??ка':
-    case 'Сумсь??а':
-      return 'Сумська'
-    case 'Те??нопільська':
-    case 'Терноп??льська':
-    case 'Тернопі??ьська':
-    case 'Тернопіл??ська':
-    case 'Тернопіль??ька':
-    case 'Тернопільськ??':
-      return 'Тернопільська'
-    case '??арківська':
-    case 'Х??рківська':
-    case 'Ха??ківська':
-    case 'Хар??івська':
-    case 'Харк??вська':
-    case 'Харкі??ська':
-    case 'Харків??ька':
-    case 'Харківс??ка':
-    case 'Харківсь??а':
-    case 'Харківськ??':
-      return 'Харківська'
-    case '??ерсонська':
-    case 'Хе??сонська':
-    case 'Хер??онська':
-    case 'Херс??нська':
-    case 'Херсо??ська':
-    case 'Херсон??ька':
-    case 'Херсонс??ка':
-    case 'Херсонсь??а':
-    case 'Херсонськ??':
-      return 'Херсонська'
-    case '??мельницька':
-    case 'Х??ельницька':
-    case 'Хм??льницька':
-    case 'Хме??ьницька':
-    case 'Хмел??ницька':
-    case 'Хмель??ицька':
-    case 'Хмельн??цька':
-    case 'Хмельни??ька':
-    case 'Хмельниц??ка':
-    case 'Хмельниць??а':
-    case 'Хмельницьк??':
-      return 'Хмельницька'
-    case '??еркаська':
-    case 'Ч??ркаська':
-    case 'Че??каська':
-    case 'Чер??аська':
-    case 'Черк??ська':
-    case 'Черка??ька':
-    case 'Черкас??ка':
-      return 'Черкаська'
-    case '??ернівецька':
-    case 'Ч??рнівецька':
-    case 'Черн??вецька':
-    case 'Черніве??ька':
-    case 'Чернівець??а':
-      return 'Чернівецька'
-    case '??ернігівська':
-    case 'Ч??рнігівська':
-    case 'Че??нігівська':
-    case 'Чер??ігівська':
-    case 'Черн??гівська':
-    case 'Черніг??вська':
-    case 'Чернігі??ська':
-    case 'Чернігів??ька':
-    case 'Чернігівськ??':
-      return 'Чернігівська'
-    default:
-      return province
-  }
+  const corruptedIndex = province.indexOf(corruptedSymbol)
+  if (corruptedIndex === -1) return province
+  const corruptedProvincesList = provincesList.map(p => `${p.slice(0, corruptedIndex)}??${p.slice(corruptedIndex + 1)}`)
+  const provinceIndex = corruptedProvincesList.indexOf(province)
+  return provinceIndex === -1 ? province : provincesList[provinceIndex]
 }
 
 const cityCorrector = (city, province) => {
@@ -472,12 +321,6 @@ const getUCRFStatistic = async (technology, page = 1, prevStatistic = {}) => {
       },
     })
     const $html = $(res.data[ucrfPartialsKey])
-    const statistic = Array.from(
-      $html
-        .siblings('table')
-        .find('tbody')
-        .find('tr'),
-    ).map(tr => Array.from($(tr).find('td')).map(td => td.innerHTML))
     const lastPageText = $html
       .siblings('.row')
       .find('.pagination')
@@ -486,6 +329,17 @@ const getUCRFStatistic = async (technology, page = 1, prevStatistic = {}) => {
       .prev()
       .text()
     const lastPage = parseInt(lastPageText, 10)
+
+    if (!lastPage || lastPage > page) {
+      return []
+    }
+
+    const statistic = Array.from(
+      $html
+        .siblings('table')
+        .find('tbody')
+        .find('tr'),
+    ).map(tr => Array.from($(tr).find('td')).map(td => td.innerHTML))
     const result = { ...prevStatistic, ...statistic.reduce((acc, s) => ({ ...acc, [s[0]]: s }), {}) }
     console.log(`     ${technology} page: ${page}/${lastPage}`)
     return page === lastPage ? Object.values(result) : getUCRFStatistic(technology, page + 1, result)
@@ -505,6 +359,7 @@ const getMergedUCRFStatistic = async () => {
 }
 
 const processUCRFStatistic = async () => {
+  const dateToday = new Date()
   const data = await getMergedUCRFStatistic()
 
   if (!data || !data.length) {
@@ -518,6 +373,7 @@ const processUCRFStatistic = async () => {
 
   data.forEach(item => {
     const date = new Date(item[1])
+    const dateEnd = new Date(item[2])
     const province = provinceCorrector(item[3])
     const city = cityCorrector(item[4])
     const equipmentModelName = item[5]
@@ -527,7 +383,14 @@ const processUCRFStatistic = async () => {
     const cityKey = `${city}_${province}`
     const operatorNameKey = getOperatorByFreq(freq)
     const equipmentBrand = getEquipmentBrandByModelName(equipmentModelName)
-    const technologyKey = technology === 'UMTS' ? '3g' : '4g'
+    const technologyKey = getTechnologyKey(technology)
+
+    // Skip Item if it outdated
+    if (dateEnd < dateToday) return
+
+    // Skip Item if UCRF returns corrupted province
+    // 'Київ' - the shortest province
+    if (province.length < 4) return
 
     if (typeof mainData[`provinces${technologyKey}`] === 'undefined') {
       mainData[`provinces${technologyKey}`] = {
