@@ -31,4 +31,4 @@ Add updater to crontab:
 00 6,9,11-14,16,18,20 * * * <user> node <full_path>/cron_scripts/updateData.js
 ```
 
-### [Website](http://3g.19min.com/)
+### [Website](https://3g.operkh.com/)
