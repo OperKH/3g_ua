@@ -33,13 +33,13 @@ const getProgress = () => {
 }
 
 const getOperatorByFreq = freq => {
-  if (/-1750|1967|1972|1977|-\s?2535/i.test(freq)) {
+  if (/-895|-1750|1967|1972|1977|-\s?2535/i.test(freq)) {
     return 'ks'
   }
-  if (/-1770|1952|1957|1962|-2520/i.test(freq)) {
+  if (/-905|-1770|1952|1957|1962|-2520/i.test(freq)) {
     return 'mts'
   }
-  if (/-1725|1922|1927|1932|-2545/i.test(freq)) {
+  if (/-900|-1725|1922|1927|1932|-2545/i.test(freq)) {
     return 'life'
   }
   if (/1937|1942|1947/i.test(freq)) {
@@ -52,6 +52,7 @@ const getTechnologyKey = technology => {
   switch (technology) {
     case 'UMTS':
       return '3g'
+    case 'LTE-900':
     case 'LTE-1800':
     case 'LTE-2600':
       return '4g'
@@ -122,11 +123,8 @@ const getUCRFStatistic = async (technology, page = 1, prevStatistic = {}) => {
 }
 const getMergedUCRFStatistic = async () => {
   console.log(getProgress(), 'Requesting UCRF Statistic...')
-  const statistic = await Promise.all([
-    getUCRFStatistic('UMTS'),
-    getUCRFStatistic('LTE-1800'),
-    getUCRFStatistic('LTE-2600'),
-  ])
+  const technologies = ['UMTS', 'LTE-900', 'LTE-1800', 'LTE-2600']
+  const statistic = await Promise.all(technologies.map(technology => getUCRFStatistic(technology)))
   return statistic.flat()
 }
 
