@@ -142,8 +142,15 @@ const processUCRFStatistic = async () => {
   console.log(getProgress(), 'Parsing UCRF Statistic...')
 
   data.forEach(item => {
-    const date = new Date(item[1])
-    const dateEnd = new Date(item[2])
+    const [startDay = '1', startMonth = '1', startYear = '1970'] = item[1].split('.')
+    const [endDay = '1', endMonth = '1', endYear = '1970'] = item[2].split('.')
+
+    const date = new Date(
+      parseInt(startYear, 10) || 1970,
+      parseInt(startMonth, 10) - 1 || 0,
+      parseInt(startDay, 10) || 1,
+    )
+    const dateEnd = new Date(parseInt(endYear, 10) || 1970, parseInt(endMonth, 10) - 1 || 0, parseInt(endDay, 10) || 1)
     const province = item[3]
     const city = item[4]
     const equipmentModelName = item[5]
