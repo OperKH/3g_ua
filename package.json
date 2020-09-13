@@ -31,6 +31,7 @@
     "gulp-uglify": "^3.0.1",
     "gulp-useref": "^3.1.6",
     "main-bower-files": "^2.5.0",
+    "prettier": "^2.1.1",
     "wiredep": "^2.2.2"
   },
   "eslintConfig": {
