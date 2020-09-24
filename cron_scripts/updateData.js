@@ -94,25 +94,16 @@ const getUCRFStatistic = async (technology, page = 1, prevStatistic = {}) => {
       },
     })
     const $html = $(res.data[ucrfPartialsKey])
-    const lastPageText = $html
-      .siblings('.row')
-      .find('.pagination')
-      .find('li')
-      .last()
-      .prev()
-      .text()
+    const lastPageText = $html.siblings('.row').find('.pagination').find('li').last().prev().text()
     const lastPage = parseInt(lastPageText, 10) || 1
 
     if (lastPage < page) {
       return []
     }
 
-    const statistic = Array.from(
-      $html
-        .siblings('table')
-        .find('tbody')
-        .find('tr'),
-    ).map(tr => Array.from($(tr).find('td')).map(td => td.innerHTML))
+    const statistic = Array.from($html.siblings('table').find('tbody').find('tr')).map(tr =>
+      Array.from($(tr).find('td')).map(td => td.innerHTML),
+    )
     const result = { ...prevStatistic, ...statistic.reduce((acc, s) => ({ ...acc, [s[0]]: s }), {}) }
     console.log(`     ${technology} page: ${page}/${lastPage}`)
     return page === lastPage ? Object.values(result) : getUCRFStatistic(technology, page + 1, result)
