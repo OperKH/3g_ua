@@ -63,7 +63,7 @@ const getTechnologyKey = technology => {
 
 const getEquipmentBrandByModelName = modelName => {
   if (
-    /RBS2116|RADIO 2219|RBS 3206|RBS3418|RBS3518|Radio 4415|RBS6000|RBS6101|RBS\s?6102|RBS\s?6201|RBS6301|RBS6302|RBS6501|RBS6601/i.test(
+    /RBS2116|RADIO 2212|RADIO 2219|RBS 3206|RBS3418|RBS3518|Radio 4415|RBS6000|RBS6101|RBS\s?6102|RBS\s?6201|RBS6301|RBS6302|RBS6501|RBS6601/i.test(
       modelName,
     )
   ) {
