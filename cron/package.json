@@ -3,14 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node ./updateData"
+    "start": "node ./crawlerRunner",
+    "cron": "node ./index"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "ejs": "^3.1.6",
     "html-minifier": "^4.0.0",
     "jquery": "^3.6.0",
-    "jsdom": "^16.5.3"
+    "jsdom": "^16.5.3",
+    "node-cron": "^3.0.0"
   },
   "devDependencies": {
     "eslint": "^7.26.0",

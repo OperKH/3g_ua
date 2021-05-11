@@ -273,7 +273,8 @@ const renderTemplate = (templateName, data, operatorsConfig) =>
       })
     })
   })
-;(async () => {
+
+module.exports = async () => {
   console.log(' START')
   let statistic
   try {
@@ -359,4 +360,4 @@ const renderTemplate = (templateName, data, operatorsConfig) =>
   console.log(getProgress(), 'Done!\n')
 
   // fs.writeFile(path.resolve(frontendDir, 'db.json'), JSON.stringify(statistic), () => {})
-})()
+}
