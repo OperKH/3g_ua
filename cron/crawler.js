@@ -21,7 +21,7 @@ const ucrfAPI = axios.create({
     'X-OCTOBER-REQUEST-PARTIALS': ucrfPartialsKey,
     'X-Requested-With': 'XMLHttpRequest',
   },
-  httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+  httpsAgent: new https.Agent({ keepAlive: true, rejectUnauthorized: false }),
 })
 
 let prevStartDate = new Date()
