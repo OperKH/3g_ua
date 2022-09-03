@@ -7,18 +7,18 @@
     "cron": "node ./index"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "ejs": "^3.1.6",
+    "axios": "^0.27.2",
+    "ejs": "^3.1.8",
     "html-minifier": "^4.0.0",
-    "jquery": "^3.6.0",
-    "jsdom": "^16.5.3",
-    "node-cron": "^3.0.0"
+    "jquery": "^3.6.1",
+    "jsdom": "^20.0.0",
+    "node-cron": "^3.0.2"
   },
   "devDependencies": {
-    "eslint": "^7.26.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0"
   },
   "engines": {
     "node": ">= 8.0.0",
