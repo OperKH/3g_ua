@@ -133,8 +133,8 @@ const processUCRFStatistic = async () => {
   console.log(getProgress(), 'Parsing UCRF Statistic...')
 
   data.forEach(item => {
-    const [startDay = '1', startMonth = '1', startYear = '1970'] = item[1].split('.')
-    const [endDay = '1', endMonth = '1', endYear = '1970'] = item[2].split('.')
+    const [startDay = '1', startMonth = '1', startYear = '1970'] = item[2].split('.')
+    const [endDay = '1', endMonth = '1', endYear = '1970'] = item[3].split('.')
 
     const date = new Date(
       parseInt(startYear, 10) || 1970,
@@ -142,11 +142,11 @@ const processUCRFStatistic = async () => {
       parseInt(startDay, 10) || 1,
     )
     const dateEnd = new Date(parseInt(endYear, 10) || 1970, parseInt(endMonth, 10) - 1 || 0, parseInt(endDay, 10) || 1)
-    const province = item[3]
-    const city = item[4]
-    const equipmentModelName = item[5]
-    const freq = item[7]
-    const technology = item[9]
+    const province = item[4]
+    const city = item[5]
+    const equipmentModelName = item[6]
+    const freq = item[8]
+    const technology = item[10]
 
     const cityKey = `${city}_${province}`
     const operatorNameKey = getOperatorByFreq(freq)
